@@ -1,0 +1,4 @@
+kedro==0.19.8
+kedro_datasets==4.1.0
+kedro-viz==10.0.0
+torch==2.7.0

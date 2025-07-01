@@ -1,0 +1,8 @@
+train_image_dataset:
+  type: serpientes_de_colombia.datasets.kedro_pytorch_dataset.KedroPytorchImageDataset
+  path: data/04_model_input/
+  data_file_name: train_image_dataset.csv
+test_image_dataset:
+  type: serpientes_de_colombia.datasets.kedro_pytorch_dataset.KedroPytorchImageDataset
+  path: data/04_model_input/
+  data_file_name: test_image_dataset.csv

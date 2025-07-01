@@ -1,0 +1,8 @@
+raw_image_dataset:
+  type: partitions.PartitionedDataset
+  path: data/01_raw/labeled_images
+  filename_suffix: ".jpg"
+  dataset: serpientes_de_colombia.datasets.images_with_dir_as_label.ImageWithDirAsLabelDataset
+
+  
+  

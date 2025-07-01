@@ -1,0 +1,3 @@
+label_encoder:
+  type: json.JSONDataset
+  filepath: data/03_primary/label_encoder.json

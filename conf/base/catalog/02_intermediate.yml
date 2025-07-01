@@ -1,0 +1,4 @@
+image_dataset:
+  type: serpientes_de_colombia.datasets.kedro_pytorch_dataset.KedroPytorchImageDataset
+  path: data/02_intermediate/
+  data_file_name: labels_and_paths.csv
