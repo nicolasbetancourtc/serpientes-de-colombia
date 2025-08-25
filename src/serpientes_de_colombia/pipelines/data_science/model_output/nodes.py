@@ -1,19 +1,36 @@
-from torchvision import datasets
 import pandas as pd
+import torch
+from torchvision import  transforms
+from torch.utils.data import Dataset,  DataLoader
 
-def list_train_files(train_image_list):
-    results=[]
-    for partition_key, partition_load_function in train_image_list.items():
-        file_path = partition_load_function()
-        results.append(file_path)
-    print(results[10])
-    return pd.DataFrame(results)
+def get_predictions(data,model, label_map, training_params, device):
+    transform=transforms.Compose([
+        transforms.RandomResizedCrop(224),
+        transforms.RandomHorizontalFlip(),
+        transforms.ToTensor(),
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    ])
+    target_transform=lambda x: label_map.get(x)
+    test_set = data.with_transforms(transform=transform, )
 
-def temp(train_data):
-    print(train_data.data.shape)
-    print(train_data.dir_path)
-    print(train_data._data_path)
-    print(train_data._describe())
-    train_data.transform_fn
-    train_data.target_transform_fn
-    return train_data
+    test_generator = DataLoader(test_set, **training_params)
+
+    model.eval()
+    predictions = []
+    labels = []
+    paths = []
+    inverse_label_map={v:k for k,v in label_map.items()}
+    model=model.to(device)
+    with torch.no_grad():
+        for X, y, path in test_generator:
+            X = X.to(device)
+            preds = model(X).argmax(1).cpu()  # get predicted classes
+            
+            predictions.extend([ inverse_label_map[k.item()] for k in  preds])
+            labels.extend(y)
+            paths.extend(path)
+    test_data_with_predictions=pd.DataFrame({'path':paths,
+              'label': labels,
+              'prediction': predictions
+             })
+    return test_data_with_predictions

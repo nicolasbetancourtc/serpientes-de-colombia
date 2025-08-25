@@ -1,29 +1,23 @@
 import numpy as np
 import pandas as pd
+import torchvision
 import torch
-from torch import nn
+import torch.nn as nn
+import torch.optim as optim
+from torch.optim import lr_scheduler
 from torch.utils.data import DataLoader
 from torchvision import  transforms
 from PIL import Image
-class NeuralNetwork(nn.Module):
-        def __init__(self):
-            super().__init__()
-            self.flatten = nn.Flatten()
-            self.linear_relu_stack = nn.Sequential(
-                nn.Linear(3*224*224, 512),
-                nn.ReLU(),
-                nn.Linear(512, 512),
-                nn.ReLU(),
-                nn.Linear(512, 2),
-            )
-
-        def forward(self, x):
-            x = self.flatten(x)
-            logits = self.linear_relu_stack(x)
-            return logits
-def dense_training(train_image_dataset,label_map,training_params):
-    device = torch.accelerator.current_accelerator().type if torch.accelerator.is_available() else "cpu"
-    print(f"Using {device} device")
+from .utils import model_calibration
+from torchvision.models import get_model
+def fxd_feature_extractor(train_image_dataset,test_image_dataset, training_params, label_map, device, backbone_model):
+    print('=='*20)
+    print('=='*20)
+    print('=='*20)
+    print(f"Extracting features using {backbone_model}...")
+    print('=='*20)
+    print('=='*20)
+    print('=='*20)
 
 
     transform=transforms.Compose([
@@ -33,40 +27,29 @@ def dense_training(train_image_dataset,label_map,training_params):
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ])
     target_transform=lambda x: label_map.get(x)
-    training_set = train_image_dataset.with_transforms(transform=transform, target_transform=target_transform)
-    training_generator = DataLoader(training_set, **training_params)
-
     
-    model = NeuralNetwork().to(device)
-    learning_rate = 1e-3
-    batch_size = 64
-    epochs = 5
-    loss_fn = nn.CrossEntropyLoss()
-    optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
-    size = len(training_generator.dataset)
-    # Set the model to training mode - important for batch normalization and dropout layers
-    # Unnecessary in this situation but added for best practices
-    model.train()
-    total_loss=0
+    training_set = train_image_dataset.with_transforms(transform=transform, target_transform=target_transform)
+    test_set = test_image_dataset.with_transforms(transform=transform, target_transform=target_transform)
+    
+    training_generator = DataLoader(training_set, **training_params)
+    test_generator = DataLoader(test_set, **training_params)
+    device = torch.accelerator.current_accelerator().type if torch.accelerator.is_available() else "cpu"
 
-    train_loss_list=[]
-    test_loss_list=[]
-    test_accuracy_list=[]
+    model_conv = get_model(backbone_model)
+    num_ftrs = model_conv.fc.in_features
+    num_classes=train_image_dataset.data[train_image_dataset.label_column].nunique()
+    model_conv.fc = nn.Linear(num_ftrs, num_classes)
 
-    for batch, (X, y) in enumerate(training_generator):
-        X, y = X.to(device), y.to(device)
-        # Compute prediction and loss
-        pred = model(X)
-        loss = loss_fn(pred, y)
+    model_conv = model_conv.to(device)
 
-        # Backpropagation
-        loss.backward()
-        optimizer.step()
-        optimizer.zero_grad()
-        total_loss += loss.item()
+    criterion = nn.CrossEntropyLoss()
 
-        if batch % 10 == 0:
-            loss, current = loss.item(), batch * batch_size + len(X)
-            print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
-    avg_loss = total_loss / len(training_generator)
-    return model
+
+    optimizer_conv = optim.SGD(model_conv.fc.parameters(), lr=0.001, momentum=0.9)
+
+    exp_lr_scheduler = lr_scheduler.StepLR(optimizer_conv, step_size=7, gamma=0.1)
+
+
+    model_conv=model_calibration(model_conv, training_generator, criterion, optimizer_conv, exp_lr_scheduler, device, phase='train',num_epochs=25)
+    model_conv=model_calibration(model_conv, test_generator, criterion, optimizer_conv, exp_lr_scheduler, device, phase='val',num_epochs=25)
+    return model_conv

@@ -52,7 +52,7 @@ class KedroPytorchImageDataset(AbstractDataset, Dataset):
 
             if self.transform:
                 image = self.transform(image)
-                return image, self.target_transform_fn(label) if self.target_transform_fn else label
+                return image, self.target_transform_fn(label) if self.target_transform_fn else label, path
     def with_transforms(self, transform=None, target_transform=None) -> "KedroPytorchImageDataSet":
         self.transform = transform
         self.target_transform_fn = target_transform

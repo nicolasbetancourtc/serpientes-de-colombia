@@ -2,3 +2,7 @@ dense_params:
   batch_size: 15
   shuffle: True
   num_workers: 0
+
+backbone_models:
+  model_1: 'ResNet18'
+  model_2: 'ResNet50'

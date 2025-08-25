@@ -1,24 +1,18 @@
 from kedro.pipeline import Pipeline, node, pipeline
 from .nodes import (
-    list_train_files,
-    temp
+    get_predictions
 )
 
 def create_pipeline(**kwargs):
     return Pipeline(
         [
             node(  # Log
-                func=list_train_files,
-                inputs=["raw_image_dataset"],
-                outputs="train_data",
-                name="list_train_files_node",
+                func=get_predictions,
+                inputs=['test_image_dataset','resnet18_model', 'label_encoder', "params:dense_params", 'device'],
+                outputs="dense_predictions",
+                name="get_predictions_node",
             ),
-            node(  # Log
-                func=temp,
-                inputs=["train_data"],
-                outputs="aaa",
-                name="test_node",
-            ),
+            
             
         ]
     )

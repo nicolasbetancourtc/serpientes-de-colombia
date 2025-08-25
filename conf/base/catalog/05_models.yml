@@ -1,4 +1,5 @@
-dense_model:
+resnet18_model:
   type: serpientes_de_colombia.datasets.pytorch_model_dataset.PytorchModelDataset
-  file_path: data/05_models/dense_model.pt
+  file_path: data/05_models/resnet18_model.pt
+  backbone_model: resnet18
   

@@ -4,5 +4,9 @@ raw_image_dataset:
   filename_suffix: ".jpg"
   dataset: serpientes_de_colombia.datasets.images_with_dir_as_label.ImageWithDirAsLabelDataset
 
+device:
+  type: kedro_datasets.text.TextDataset
+  filepath: data/01_raw/device.txt
+
   
   
