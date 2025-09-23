@@ -1,0 +1,10 @@
+confusion_matrix_ResNet18@matplotlib:
+  type: matplotlib.MatplotlibWriter
+  filepath: data/07_reporting/confusion_matrix_ResNet18.png
+  save_args:
+    format: png
+confusion_matrix_ResNet50@matplotlib:
+  type: matplotlib.MatplotlibWriter
+  filepath: data/07_reporting/confusion_matrix_ResNet50.png
+  save_args:
+    format: png

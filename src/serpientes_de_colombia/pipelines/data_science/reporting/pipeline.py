@@ -1,24 +1,21 @@
 from kedro.pipeline import Pipeline, node, pipeline
 from .nodes import (
-    list_train_files,
-    temp
+    cf_matrix
 )
 
 def create_pipeline(**kwargs):
     return Pipeline(
-        [
-            node(  # Log
-                func=list_train_files,
-                inputs=["raw_image_dataset"],
-                outputs="train_data",
-                name="list_train_files_node",
-            ),
-            node(  # Log
-                func=temp,
-                inputs=["train_data"],
-                outputs="aaa",
-                name="test_node",
-            ),
+       
+        [  node(  # Log
+                func=cf_matrix,
+                inputs=[f"{backbone_model}_predictions@pandas", 'label_encoder'],
+                outputs=f"confusion_matrix_{backbone_model}@matplotlib",
+                name=f"confusion_matrix_{backbone_model}_node",
+            )
+            
+            for idx, (parameter_name, backbone_model) in  enumerate(kwargs["backbone_models"].items())
+
+        
             
         ]
     )

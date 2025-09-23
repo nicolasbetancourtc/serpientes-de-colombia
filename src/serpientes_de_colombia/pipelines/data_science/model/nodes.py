@@ -33,7 +33,7 @@ def fxd_feature_extractor(train_image_dataset,test_image_dataset, training_param
     
     training_generator = DataLoader(training_set, **training_params)
     test_generator = DataLoader(test_set, **training_params)
-    device = torch.accelerator.current_accelerator().type if torch.accelerator.is_available() else "cpu"
+    device = torch.device("cuda" if device=="cuda" and  torch.cuda.is_available() else "cpu")
 
     model_conv = get_model(backbone_model)
     num_ftrs = model_conv.fc.in_features

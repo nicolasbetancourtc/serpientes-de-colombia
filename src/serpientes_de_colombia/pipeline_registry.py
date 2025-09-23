@@ -36,18 +36,17 @@ def register_pipelines() -> dict[str, Pipeline]:
 
     params = conf_loader["parameters"]
     model_pipeline = model.create_pipeline(backbone_models=params["backbone_models"])
-    model_output_pipeline = model_output.create_pipeline()
-    #reporting_pipeline = reporting.create_pipeline()
-
+    model_output_pipeline = model_output.create_pipeline(backbone_models=params["backbone_models"])
+    reporting_pipeline = reporting.create_pipeline(backbone_models=params["backbone_models"])
 
     pipelines = {
-        "__default__": intermediate_pipeline+primary_pipeline+model_input_pipeline+model_pipeline+model_output_pipeline+raw_pipeline,
+        "__default__": intermediate_pipeline+primary_pipeline+model_input_pipeline+model_pipeline+model_output_pipeline+raw_pipeline+reporting_pipeline,
         "raw": raw_pipeline,
         "intermediate": intermediate_pipeline,
         "primary": primary_pipeline,    
         "models": model_pipeline,
         "model_input": model_input_pipeline,
         "model_output": model_output_pipeline,
-        #"reporting": reporting_pipeline,
+        "reporting": reporting_pipeline,
     }
     return pipelines

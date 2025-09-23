@@ -1,0 +1,6 @@
+ResNet18_predictions@pandas:
+  type: pandas.CSVDataset
+  filepath: data/06_model_output/ResNet18_predictions.csv
+ResNet50_predictions@pandas:
+  type: pandas.CSVDataset
+  filepath: data/06_model_output/ResNet50_predictions.csv

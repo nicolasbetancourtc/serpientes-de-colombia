@@ -1,12 +1,27 @@
+taxon_metadata@pandas:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/taxon_metadata.csv
+image_urls@pandas:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/get_image_urls.csv
+
+device:
+  type: kedro_datasets.text.TextDataset
+  filepath: data/01_raw/device.txt
+
+serpientes_de_colombia_images:
+  type: partitions.PartitionedDataset
+  path: data/01_raw/serpientes_de_colombia_images/
+  dataset:
+    type:  kedro_datasets.pillow.ImageDataset
+  filename_suffix: ".jpg"
+
 raw_image_dataset:
   type: partitions.PartitionedDataset
   path: data/01_raw/labeled_images
   filename_suffix: ".jpg"
   dataset: serpientes_de_colombia.datasets.images_with_dir_as_label.ImageWithDirAsLabelDataset
 
-device:
-  type: kedro_datasets.text.TextDataset
-  filepath: data/01_raw/device.txt
 
   
   

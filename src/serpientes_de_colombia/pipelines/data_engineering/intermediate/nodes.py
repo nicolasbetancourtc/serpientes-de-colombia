@@ -8,12 +8,3 @@ def list_train_files(train_image_list):
         results.append(file_path)
     print(results[10])
     return pd.DataFrame(results)
-
-def temp(train_data):
-    print(train_data.data.shape)
-    print(train_data.dir_path)
-    print(train_data._data_path)
-    print(train_data._describe())
-    train_data.transform_fn
-    train_data.target_transform_fn
-    return train_data

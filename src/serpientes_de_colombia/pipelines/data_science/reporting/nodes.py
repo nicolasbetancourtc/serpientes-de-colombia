@@ -1,19 +1,15 @@
-from torchvision import datasets
-import pandas as pd
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+import matplotlib.pyplot as plt
 
-def list_train_files(train_image_list):
-    results=[]
-    for partition_key, partition_load_function in train_image_list.items():
-        file_path = partition_load_function()
-        results.append(file_path)
-    print(results[10])
-    return pd.DataFrame(results)
-
-def temp(train_data):
-    print(train_data.data.shape)
-    print(train_data.dir_path)
-    print(train_data._data_path)
-    print(train_data._describe())
-    train_data.transform_fn
-    train_data.target_transform_fn
-    return train_data
+def cf_matrix(predictions, label_encoder):
+    # Compute confusion matrix
+    #print('a',type(predictions))
+    #print('a',predictions)
+    print('holaaaaa')
+    cm = confusion_matrix(predictions['label'], predictions['prediction'])
+    # Plot it
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=label_encoder.keys())
+    fig, ax = plt.subplots(figsize=(5, 5))
+    disp.plot(ax=ax, cmap='Blues', xticks_rotation=45)
+    ax.set_title("Confusion Matrix")
+    return fig

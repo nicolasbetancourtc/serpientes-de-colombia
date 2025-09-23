@@ -1,4 +1,4 @@
-dense_params:
+training_params:
   batch_size: 15
   shuffle: True
   num_workers: 0

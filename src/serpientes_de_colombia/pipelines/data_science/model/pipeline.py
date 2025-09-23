@@ -10,7 +10,7 @@ def create_pipeline(**kwargs):
                 func=fxd_feature_extractor,
                 inputs=["train_image_dataset" , 
                         "test_image_dataset" ,
-                        "params:dense_params" ,
+                        "params:training_params" ,
                         'label_encoder',
                         'device',
                         f"params:backbone_models.{parameter_name}"
