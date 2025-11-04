@@ -1,9 +1,15 @@
 taxon_metadata@pandas:
   type: pandas.CSVDataset
   filepath: data/01_raw/taxon_metadata.csv
+
+
 image_urls@pandas:
   type: pandas.CSVDataset
-  filepath: data/01_raw/get_image_urls.csv
+  filepath: data/01_raw/image_urls.csv
+
+unfiltered_image_urls@pandas:
+  type: pandas.CSVDataset
+  filepath: data/01_raw/unfiltered_image_urls.csv
 
 device:
   type: kedro_datasets.text.TextDataset

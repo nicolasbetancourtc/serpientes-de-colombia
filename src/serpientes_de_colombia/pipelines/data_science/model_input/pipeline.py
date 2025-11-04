@@ -8,7 +8,7 @@ def create_pipeline(**kwargs):
         [
             node(  # Log
                 func=train_test_split,
-                inputs=["image_dataset",'params:train_size'],
+                inputs=['train_set','params:train_size'],
                 outputs=["train_image_dataset", "test_image_dataset"],
                 name="train_test_split_node",
             ),

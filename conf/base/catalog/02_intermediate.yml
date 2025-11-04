@@ -1,4 +1,21 @@
-image_dataset:
+train_set:
   type: serpientes_de_colombia.datasets.kedro_pytorch_dataset.KedroPytorchImageDataset
-  path: data/02_intermediate/
-  data_file_name: labels_and_paths.csv
+  labels_csv: data/02_intermediate/train_labels_and_paths.csv
+  path_column: file_name
+  label_column: label
+  path_to_images: data/01_raw/serpientes_de_colombia_images/
+  
+validation_set:
+  type: serpientes_de_colombia.datasets.kedro_pytorch_dataset.KedroPytorchImageDataset
+  labels_csv: data/02_intermediate/validation_labels_and_paths.csv
+  path_column: file_name
+  label_column: label
+  path_to_images: data/01_raw/images/
+  
+test_set:
+  type: serpientes_de_colombia.datasets.kedro_pytorch_dataset.KedroPytorchImageDataset
+  labels_csv: data/02_intermediate/test_labels_and_paths.csv
+  path_column: file_name
+  label_column: label
+  path_to_images: data/01_raw/serpientes_de_colombia_images/
+  

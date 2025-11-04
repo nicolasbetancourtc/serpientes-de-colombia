@@ -8,7 +8,7 @@ def create_pipeline(**kwargs):
         [
             node(  # Log
                 func=global_label_encoder,
-                inputs=["image_dataset"],
+                inputs=['train_set'],
                 outputs="label_encoder",
                 name="global_label_encoder_node",
             )

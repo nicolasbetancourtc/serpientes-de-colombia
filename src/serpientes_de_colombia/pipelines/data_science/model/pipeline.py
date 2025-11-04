@@ -8,8 +8,8 @@ def create_pipeline(**kwargs):
         [
             node(
                 func=fxd_feature_extractor,
-                inputs=["train_image_dataset" , 
-                        "test_image_dataset" ,
+                inputs=["train_set" , 
+                        "validation_set", 
                         "params:training_params" ,
                         'label_encoder',
                         'device',

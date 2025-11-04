@@ -8,7 +8,7 @@ def create_pipeline(**kwargs):
        
         [  node(  # Log
                 func=get_predictions,
-                inputs=['test_image_dataset',f"{backbone_model}_model", 'label_encoder', "params:training_params", 'device'],
+                inputs=['train_set',f"{backbone_model}_model", 'label_encoder', "params:training_params", 'device'],
                 outputs=f"{backbone_model}_predictions@pandas",
                 name=f"get_{backbone_model}_predictions_node",
             )
