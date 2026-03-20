@@ -34,10 +34,10 @@ def register_pipelines() -> dict[str, Pipeline]:
     project_root = Path(__file__).resolve().parents[2]  # up from src/
     conf_loader = OmegaConfigLoader(conf_source=str(project_root / settings.CONF_SOURCE), base_env="base")
 
-    params = conf_loader["parameters"]
-    model_pipeline = model.create_pipeline(backbone_models=params["backbone_models"])
-    model_output_pipeline = model_output.create_pipeline(backbone_models=params["backbone_models"])
-    reporting_pipeline = reporting.create_pipeline(backbone_models=params["backbone_models"])
+    
+    model_pipeline = model.create_pipeline()
+    model_output_pipeline = model_output.create_pipeline()
+    reporting_pipeline = reporting.create_pipeline()
 
     pipelines = {
         "__default__": intermediate_pipeline+primary_pipeline+model_input_pipeline+model_pipeline+model_output_pipeline+raw_pipeline+reporting_pipeline,

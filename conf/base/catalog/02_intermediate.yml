@@ -10,7 +10,7 @@ validation_set:
   labels_csv: data/02_intermediate/validation_labels_and_paths.csv
   path_column: file_name
   label_column: label
-  path_to_images: data/01_raw/images/
+  path_to_images: data/01_raw/serpientes_de_colombia_images/
   
 test_set:
   type: serpientes_de_colombia.datasets.kedro_pytorch_dataset.KedroPytorchImageDataset

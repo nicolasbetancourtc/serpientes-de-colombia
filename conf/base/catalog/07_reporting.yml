@@ -1,10 +1,20 @@
-confusion_matrix_ResNet18@matplotlib:
+confusion_matrix@matplotlib:
   type: matplotlib.MatplotlibWriter
-  filepath: data/07_reporting/confusion_matrix_ResNet18.png
+  filepath: data/07_reporting/confusion_matrix.png
   save_args:
     format: png
-confusion_matrix_ResNet50@matplotlib:
+loss_history_plot@matplotlib:
   type: matplotlib.MatplotlibWriter
-  filepath: data/07_reporting/confusion_matrix_ResNet50.png
+  filepath: data/07_reporting/loss_history_plot.png
   save_args:
     format: png
+
+sample_predictions@pandas:
+  type: pandas.CSVDataset
+  filepath: data/07_reporting/sample_predictions.csv
+
+sample_predictions_folder:
+  type: partitions.PartitionedDataset
+  path: data/07_reporting/sample_predictions
+  dataset:
+    type: pillow.ImageDataset

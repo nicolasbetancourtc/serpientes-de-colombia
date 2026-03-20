@@ -1,19 +1,18 @@
 from kedro.pipeline import Pipeline, node, pipeline
 from .nodes import (
-    train_validation_test_split
+    
+    filter_failed_downloads
 )
 
 def create_pipeline(**kwargs):
     return Pipeline(
         [
+            
             node(  # Log
-                func=train_validation_test_split,
-                inputs=['image_urls@pandas',     
-                        'params:train_size',     
-                        'params:validation_size',
-           ],
-                outputs=['train_set', 'validation_set', 'test_set'],
-                name="train_validation_test_split_node",
+                func=filter_failed_downloads,
+                inputs=[ "serpientes_de_colombia_images", "unfiltered_image_urls@pandas"],
+                outputs="image_urls@pandas",
+                name="filter_failed_downloads_node",
             ),
             
             

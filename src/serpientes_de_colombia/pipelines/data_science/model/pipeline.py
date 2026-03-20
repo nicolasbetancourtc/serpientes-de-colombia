@@ -13,14 +13,14 @@ def create_pipeline(**kwargs):
                         "params:training_params" ,
                         'label_encoder',
                         'device',
-                        f"params:backbone_models.{parameter_name}"
+                        f"params:backbone_model"
                         ],
-                outputs=f"{backbone_model}_model",
-                name=f"fxd_feature_extractor_{backbone_model}_node",
+                outputs=[f"model", f"loss_history@pandas"],
+                name=f"fxd_feature_extractor_node",
             )
             
             
-            for parameter_name, backbone_model in  kwargs["backbone_models"].items()
+            
             
         ]
     )

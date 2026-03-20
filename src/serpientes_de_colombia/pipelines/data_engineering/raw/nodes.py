@@ -112,7 +112,7 @@ def download_images(unfiltered_image_urls, delay=0.2):
             if img.mode in ("P", "RGBA", "LA"):
                 img = img.convert("RGB")
 
-            path = Path(row['label']) / row['file_name'].str.replace('.jpg','')
+            path = Path(row['label']) / row['file_name'].replace('.jpg','')
 
             yield {str(path): img}
               
@@ -121,10 +121,7 @@ def download_images(unfiltered_image_urls, delay=0.2):
 
         if delay > 0:
             time.sleep(delay)  # be nice to the server
-def filter_failed_downloads(serpientes_de_colombia_images,
-unfiltered_image_urls):
-    succesfful_downloads=[  file_path.split('/')[1]+'.jpg' for  file_path, method in serpientes_de_colombia_images.items()]
-    return unfiltered_image_urls[unfiltered_image_urls['file_name'].isin(succesfful_downloads)]
+
 
 
 

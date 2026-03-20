@@ -13,7 +13,7 @@ def get_predictions(data,model, label_map, training_params, device):
     target_transform=lambda x: label_map.get(x)
     test_set = data.with_transforms(transform=transform, )
 
-    test_generator = DataLoader(test_set, **training_params)
+    test_generator = DataLoader(test_set, **training_params['generator_params'])
 
     model.eval()
     predictions = []

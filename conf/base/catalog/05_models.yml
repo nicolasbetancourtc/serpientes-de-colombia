@@ -1,9 +1,8 @@
-ResNet18_model:
+model:
   type: serpientes_de_colombia.datasets.pytorch_model_dataset.PytorchModelDataset
-  file_path: data/05_models/resnet18_model.pt
+  file_path: data/05_models/model.pt
   backbone_model: resnet18
-ResNet50_model:
-  type: serpientes_de_colombia.datasets.pytorch_model_dataset.PytorchModelDataset
-  file_path: data/05_models/ResNet50_model.pt
-  backbone_model: ResNet50
-  
+
+loss_history@pandas:
+  type: pandas.CSVDataset
+  filepath: data/05_models/loss_history.csv

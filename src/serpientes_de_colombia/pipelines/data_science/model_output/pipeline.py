@@ -8,12 +8,12 @@ def create_pipeline(**kwargs):
        
         [  node(  # Log
                 func=get_predictions,
-                inputs=['train_set',f"{backbone_model}_model", 'label_encoder', "params:training_params", 'device'],
-                outputs=f"{backbone_model}_predictions@pandas",
-                name=f"get_{backbone_model}_predictions_node",
+                inputs=['test_set',"model", 'label_encoder', "params:training_params", 'device'],
+                outputs=f"predictions@pandas",
+                name=f"get_predictions_node",
             )
             
-            for parameter_name, backbone_model in  kwargs["backbone_models"].items()
+         
             
         ]
     )

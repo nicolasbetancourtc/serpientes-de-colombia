@@ -1,17 +1,21 @@
 from kedro.pipeline import Pipeline, node, pipeline
 from .nodes import (
-    global_label_encoder
+    train_validation_test_split,
 )
 
 def create_pipeline(**kwargs):
     return Pipeline(
         [
+           
             node(  # Log
-                func=global_label_encoder,
-                inputs=['train_set'],
-                outputs="label_encoder",
-                name="global_label_encoder_node",
-            )
+                func=train_validation_test_split,
+                inputs=['image_urls@pandas',     
+                        'params:train_validation_size',     
+                        'params:validation_size',
+                        ],
+                outputs=['train_set', 'validation_set', 'test_set'],
+                name="train_validation_test_split_node",
+            ),
             
         ]
     )
