@@ -15,6 +15,12 @@ def create_pipeline(**kwargs):
                 outputs="confusion_matrix@matplotlib",
                 name="confusion_matrix_node",
             ),
+            node(  # Log
+                func=cf_matrix,
+                inputs=["predictions_train@pandas", 'label_encoder'],
+                outputs="confusion_matrix_train@matplotlib",
+                name="confusion_matrix_train_node",
+            ),
             
             node(  # Log
                     func=loss_history_plot,

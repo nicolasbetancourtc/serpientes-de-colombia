@@ -6,9 +6,10 @@ def model_calibration(model, train_dataloader, validation_dataloader, criterion,
     loss_history = []
     for epoch in range(num_epochs):
 
-        # ---- Train (backbone eval, head train) ----
-        model.eval()
-        model.fc.train()
+    
+        #model.eval()
+        #model.fc.train()
+        model.train()
 
         train_loss = 0.0
         for idx, (x, y, _) in enumerate(train_dataloader):   # <- ignore path with _

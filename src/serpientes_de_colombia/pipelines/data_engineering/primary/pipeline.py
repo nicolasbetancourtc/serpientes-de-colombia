@@ -6,7 +6,7 @@ from .nodes import (
 def create_pipeline(**kwargs):
     return Pipeline(
         [
-           
+    
             node(  # Log
                 func=train_validation_test_split,
                 inputs=['image_urls@pandas',     

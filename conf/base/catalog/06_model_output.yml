@@ -1,4 +1,7 @@
 predictions@pandas:
   type: pandas.CSVDataset
   filepath: data/06_model_output/predictions.csv
+predictions_train@pandas:
+  type: pandas.CSVDataset
+  filepath: data/06_model_output/predictions_train.csv
 

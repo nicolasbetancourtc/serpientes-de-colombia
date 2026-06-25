@@ -2,17 +2,18 @@ import numpy as np
 def train_validation_test_split(image_urls,   
 train_validation_size,     
 validation_size):
-    image_urls=image_urls[['observation_date','file_name','label']]
+    min_train_fraction=0.8*image_urls['label'].value_counts().min()
 
-    #Sort by observation date to avoid data leakage. Test will be the most recent data.
-    image_urls=image_urls.sort_values(by='observation_date', ascending=True).reset_index(drop=True)
-    #Test will be the most recent data.
-    train_validation, test= image_urls[image_urls.index<len(image_urls)*train_validation_size], image_urls[image_urls.index>=len(image_urls)*train_validation_size]
-    #Within train_validation, split into train and validation
+    train_validation=image_urls[image_urls.assign(random=np.random.normal(0,1)).groupby('label')['random'].transform('rank','first')<=min_train_fraction]
+    test=image_urls[~image_urls['observation_id'].isin(train_validation['observation_id'])]
+
     train_validation['set']=train_validation.groupby('label')['label'].transform(lambda x: np.random.binomial(n=1,p=validation_size, size=len(x)))
 
-
     train, validation=train_validation[train_validation['set']==0], train_validation[train_validation['set']==1]
+    print(f"Train set size: {len(train)}")
+    print(f"Validation set size: {len(validation)}")    
+    print(f"Test set size: {len(test)}")
+    print(f"Train set class distribution:\n{train['label'].value_counts(normalize=True)}")
     return train, validation, test
 
 

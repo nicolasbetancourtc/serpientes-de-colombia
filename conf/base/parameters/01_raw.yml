@@ -5,13 +5,13 @@ families_of_interest:
 genus_of_interest:
   falsa_vibora: ['leptodeira','imantodes','helicops','xenodon']
   falsa_coral: ['oxyrhopus','lampropeltis','pseudoboa',
-                                  'phimophis','pliocercus','rhinobothryum',
+                                  'pliocercus','rhinobothryum',
                                   'siphlophis','scaphiodontophis','anilius']
-  macabrel: ['corallus','epicrates']
+  
 
 inaturalist_request_params:
   INAT_URL: "https://api.inaturalist.org/v1/observations"
   max_results_per_page: 200
-  desired_observations: 500
+  desired_observations: 3000
   place_id: 7196
                             

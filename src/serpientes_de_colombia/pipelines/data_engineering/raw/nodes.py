@@ -3,6 +3,7 @@ import torch
 import time
 import requests
 import pandas as pd
+import numpy as np
 from pathlib import Path
 from io import BytesIO
 from PIL import Image
@@ -100,6 +101,9 @@ def get_image_urls(taxon_metadata,INAT_URL,desired_observations,max_results_per_
     unfiltered_image_urls['file_name']=unfiltered_image_urls.apply( lambda x: f"{x['img_number']:.0f}_{x['observation_id']}_{x['name']}.jpg", axis=1)
 
     unfiltered_image_urls=unfiltered_image_urls.drop(columns=['img_number'])
+    smallest_class=unfiltered_image_urls['label'].value_counts().min()
+
+    unfiltered_image_urls=unfiltered_image_urls[unfiltered_image_urls.assign(random=np.random.normal(0,1)).groupby('label')['random'].transform('rank','first')<=smallest_class]
     return unfiltered_image_urls
 
 def download_images(unfiltered_image_urls, delay=0.2):

@@ -3,6 +3,11 @@ confusion_matrix@matplotlib:
   filepath: data/07_reporting/confusion_matrix.png
   save_args:
     format: png
+confusion_matrix_train@matplotlib:
+  type: matplotlib.MatplotlibWriter
+  filepath: data/07_reporting/confusion_matrix_train.png
+  save_args:
+    format: png
 loss_history_plot@matplotlib:
   type: matplotlib.MatplotlibWriter
   filepath: data/07_reporting/loss_history_plot.png

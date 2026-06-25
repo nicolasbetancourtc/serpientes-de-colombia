@@ -64,10 +64,13 @@ def fxd_feature_extractor(train_image_dataset,validation_image_dataset, training
     model_conv = get_model(backbone_model)
     num_ftrs = model_conv.fc.in_features
     num_classes=train_image_dataset.data[train_image_dataset.label_column].nunique()
-    model_conv.fc = nn.Linear(num_ftrs, num_classes)
+    model_conv.fc = nn.Sequential(
+                                    nn.Linear(num_ftrs, 256),
+                                    nn.ReLU(),
+                                    nn.Dropout(0.3),
+                                    nn.Linear(256, num_classes)
+                                )
     for param in model_conv.parameters():
-        param.requires_grad = False
-    for param in model_conv.fc.parameters():
         param.requires_grad = True
     
 
@@ -77,9 +80,9 @@ def fxd_feature_extractor(train_image_dataset,validation_image_dataset, training
     criterion = nn.CrossEntropyLoss()
 
 
-    optimizer_conv = torch.optim.Adam(model_conv.parameters(), lr=3e-4)
+    optimizer_conv = torch.optim.SGD(model_conv.parameters(), lr=0.01, momentum=0.9)
 
-    exp_lr_scheduler = lr_scheduler.StepLR(optimizer_conv, step_size=7, gamma=0.1)
+    #exp_lr_scheduler = lr_scheduler.StepLR(optimizer_conv, step_size=7, gamma=0.1)
 
     # model, train_dataloader, validation_dataloader, criterion, optimizer
     model_conv,loss_history=model_calibration(
