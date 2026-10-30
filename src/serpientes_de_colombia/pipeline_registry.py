@@ -48,5 +48,6 @@ def register_pipelines() -> dict[str, Pipeline]:
         "model_input": model_input_pipeline,
         "model_output": model_output_pipeline,
         "reporting": reporting_pipeline,
+        "full_train_validation_run": primary_pipeline+model_pipeline+model_output_pipeline+reporting_pipeline
     }
     return pipelines

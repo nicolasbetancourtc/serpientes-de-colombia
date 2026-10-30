@@ -1,0 +1,8 @@
+label_encoder:
+  type: json.JSONDataset
+  filepath: data/03_primary/label_encoder.json
+sample_transform:
+  type: partitions.PartitionedDataset
+  path: data/04_model_input/sample_predictions
+  dataset:
+    type: pillow.ImageDataset

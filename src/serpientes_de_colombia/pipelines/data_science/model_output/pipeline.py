@@ -8,13 +8,13 @@ def create_pipeline(**kwargs):
        
         [  node(  # Log
                 func=get_predictions,
-                inputs=['test_set',"model", 'label_encoder', "params:training_params", 'device'],
+                inputs=['test_set',"model_fxd_feature",  'label_encoder', "params:training_params", 'device'],
                 outputs=f"predictions@pandas",
                 name=f"get_predictions_node",
             ),
             node(  # Log
                 func=get_predictions,
-                inputs=['train_set',"model", 'label_encoder', "params:training_params", 'device'],
+                inputs=['train_set',"model_fxd_feature",  'label_encoder', "params:training_params", 'device'],
                 outputs=f"predictions_train@pandas",
                 name=f"get_predictions_train_node",
             )

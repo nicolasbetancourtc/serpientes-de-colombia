@@ -28,8 +28,17 @@ class KedroPytorchImageDataset(AbstractDataset, Dataset):
             self.data=None
 
             protocol, path = get_protocol_and_path(self.labels_csv)
+
+            protocol, path = get_protocol_and_path(self.labels_csv)
+
+            print(protocol)
+            print(path)
+            print(type(path))
+
             self._protocol = protocol
-            self._fs = fsspec.filesystem(self._protocol)
+
+            self._filepath = Path(path)     # <- keep this
+            self._fs = fsspec.filesystem(protocol)
             
 
     #############
@@ -62,8 +71,12 @@ class KedroPytorchImageDataset(AbstractDataset, Dataset):
     ### KEDRO Dataset methods
     #############
     #############
-    def _load(self) -> "KedroPytorchImageDataSet":
-        self.data=pd.read_csv(self.labels_csv)
+   
+    def _load(self):
+        load_path = get_filepath_str(self._filepath, self._protocol)
+        with self._fs.open(load_path, "r") as f:
+                self.data = pd.read_csv(f)
+
         return self
         
     def _save(self, data: pd.DataFrame) -> None:

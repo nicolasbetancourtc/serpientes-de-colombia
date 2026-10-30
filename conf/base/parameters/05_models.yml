@@ -1,9 +1,8 @@
 training_params:
   generator_params:
     batch_size: 15
-    shuffle: True
     num_workers: 0
-  num_epochs: 30
+  num_epochs: 40
 
 backbone_model: 'ResNet18'
 

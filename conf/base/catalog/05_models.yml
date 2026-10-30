@@ -1,8 +1,15 @@
-model:
+model_fxd_feature:
   type: serpientes_de_colombia.datasets.pytorch_model_dataset.PytorchModelDataset
-  file_path: data/05_models/model.pt
+  file_path: data/05_models/model_fxd_feature.pt
+  backbone_model: resnet18
+model_fine_tune:
+  type: serpientes_de_colombia.datasets.pytorch_model_dataset.PytorchModelDataset
+  file_path: data/05_models/model_fine_tune.pt
   backbone_model: resnet18
 
-loss_history@pandas:
+loss_history_fxd_feature@pandas:
   type: pandas.CSVDataset
-  filepath: data/05_models/loss_history.csv
+  filepath: data/05_models/loss_history_fxd_feature.csv
+loss_history_fine_tune@pandas:
+  type: pandas.CSVDataset
+  filepath: data/05_models/loss_history_fine_tune.csv

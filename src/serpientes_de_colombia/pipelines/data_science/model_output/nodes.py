@@ -4,13 +4,14 @@ from torchvision import  transforms
 from torch.utils.data import Dataset,  DataLoader
 
 def get_predictions(data,model, label_map, training_params, device):
-    transform=transforms.Compose([
-        transforms.RandomResizedCrop(224),
-        transforms.RandomHorizontalFlip(),
-        transforms.ToTensor(),
-        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    transform = transforms.Compose([
+    transforms.Resize((224, 224)),   # same resizing, no randomness
+    transforms.ToTensor(),
+    transforms.Normalize(
+        mean=[0.485, 0.456, 0.406],
+        std=[0.229, 0.224, 0.225]
+    )
     ])
-    target_transform=lambda x: label_map.get(x)
     test_set = data.with_transforms(transform=transform, )
 
     test_generator = DataLoader(test_set, **training_params['generator_params'])

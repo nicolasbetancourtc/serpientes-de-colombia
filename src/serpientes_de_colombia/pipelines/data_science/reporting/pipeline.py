@@ -24,7 +24,7 @@ def create_pipeline(**kwargs):
             
             node(  # Log
                     func=loss_history_plot,
-                    inputs=f"loss_history@pandas",
+                    inputs="loss_history_fxd_feature@pandas",
                     outputs="loss_history_plot@matplotlib",
                     name=f"loss_history_plot_node",
                 ),
